@@ -22,7 +22,6 @@ void ptresidual::FillHist()
         int thre = Thre(offline_pt/1000);
         if(thre == 999){continue;}
         if(Offline(i, ext_mu_size->at(i))==false)continue;
-        h_offline->Fill(offline_pt/1000);
 
         //TGC Run-3 Start
         int pT = TGC_Run3(offline_pt/1000);
@@ -37,7 +36,6 @@ void ptresidual::FillHist()
             Integral[thre-1]=Integral[thre-1]+1;
             mean[thre-1]=mean[thre-1]+ptresidual;
             scatter[thre-1]=scatter[thre-1]+pow(ptresidual,2);
-           }
         }
     }
 }

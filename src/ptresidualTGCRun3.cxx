@@ -21,7 +21,6 @@ Int_t ptresidual::TGC_Run3(float offline_pt)
 
     for(int j=0;j!=TGC_Run3_n;j++){
         if(TGC_Run3_type->at(j)!=2)continue;
-        if(TGC_Run3_IsEndcap->at(j)==false)continue;
 
         int station = TGC_Run3_station->at(j);
         bool flag = HotRoI(j);
@@ -67,7 +66,6 @@ Int_t ptresidual::TGC_Run3(float offline_pt)
             if(station==0){StationFlag=true;}
         }
     }
-    h_dr_2d->Fill(offline_pt, dR);
 
     if(dR<=0.04){return pT;}
     //if(dR<=0.04&&StationFlag==true){return pT;}

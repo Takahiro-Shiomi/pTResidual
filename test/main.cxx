@@ -19,13 +19,13 @@ int main(int argc, char *argv[])
     tree1->Add(argv[2]);
     Int_t limit_entry = atoi(argv[3]);
 
-    TFile *fout = new TFile(Form("./rootfile/%s.root", PdfLabel.Data()), "recreate");
+    TFile *fout = new TFile(Form("../rootfile/%s.root", PdfLabel.Data()), "recreate");
 
     ptresidual tls(tree1);
     std::cout<<"<<Loop START>>"<<std::endl;
     tls.Loop(limit_entry);
     std::cout<<"<<Draw START>>"<<std::endl;
-    tls.DrawHist("./pdf/Draw_" + PdfLabel + ".pdf");
+    tls.DrawHist("../pdf/Draw_" + PdfLabel + ".pdf");
     fout -> Write();
     std::cout<<"<<Run END>>"<<std::endl;
     tls.EndHist();

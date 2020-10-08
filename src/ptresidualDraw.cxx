@@ -4,6 +4,7 @@
 #include "TStyle.h"
 #include "TF1.h"
 #include "TLegend.h"
+#include "TGraphErrors.h"
 
 using namespace std;
 

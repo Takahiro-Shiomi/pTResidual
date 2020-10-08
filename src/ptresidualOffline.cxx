@@ -1,5 +1,6 @@
-#include "../include/TurnoncurvE.h"
+#include "../include/ptresidual.h"
 #include <TH2.h>
+#include <TMath.h>
 #include <TStyle.h>
 #include <TCanvas.h>
 #include <iostream>
@@ -39,7 +40,7 @@ Bool_t ptresidual::Offline(int i, int j)
     return Flag;
 }
 
-Int_t ptresidual::Thre(float k)
+Int_t ptresidual::Thre(int k)
 {
     int Thre=999;
     if(k>=1&&k<=2){Thre=1;}
