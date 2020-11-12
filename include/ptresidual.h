@@ -12,6 +12,7 @@
 #include <TChain.h>
 #include <TFile.h>
 #include <TH1D.h>
+#include <TH2D.h>
 
 // Header file for the classes stored in the TTree if any.
 #include "vector"
@@ -221,15 +222,26 @@ public :
    TBranch        *b_TGC_Run3_Phi;   //!
    TBranch        *b_TGC_Run3_Charge;   //!
 
+   //Parameter
    float extEta;
    float extPhi;
 
-   float Integral[20];
-   float mean[20];
-   float scatter[20];
+   float B_inte[20];
+   float B_mean[20];
+   float B_scat[20];
+   float A_inte[20];
+   float A_mean[20];
+   float A_scat[20];
 
-   TH1D *h_pT;
-   TH1D *h_pTresidual[20];
+   //Histgram
+   TH1D *P_pT;
+   TH1D *J_dPhi;
+   TH1D *J_dR;
+   TH1D *J_M;
+   TH2D *B_dR;
+   TH2D *A_dR;
+   TH1D *B_resi[20];
+   TH1D *A_resi[20];
 
    ptresidual(TTree *tree=0);
    virtual ~ptresidual();
@@ -243,9 +255,11 @@ public :
    virtual void     EndHist();
    virtual void     DrawHist(TString pdf);
    virtual Bool_t   Offline(int i,int j);
+   virtual Bool_t   Tag(int tag);
    virtual Bool_t   HotRoI(int tgc);
    virtual Int_t    Thre(int k);
-   virtual Int_t    TGC_Run3(float offline_pt);
+   virtual Int_t    TGC_Run3(float off_pt);
+   virtual Int_t    TGC_Run2(float off_pt);
    virtual Bool_t   Notify();
    virtual void     Show(Long64_t entry = -1);
 };

@@ -12,7 +12,7 @@
 
 using namespace std;
 
-Int_t ptresidual::TGC_Run3(float offline_pt)
+Int_t ptresidual::TGC_Run3(float off_pt)
 {
     double pT=99999999;
     float dR=100;
@@ -66,21 +66,15 @@ Int_t ptresidual::TGC_Run3(float offline_pt)
             if(station==0){StationFlag=true;}
         }
     }
-
-    if(dR<=0.04){return pT;}
-    //if(dR<=0.04&&StationFlag==true){return pT;}
-    //if(dR<=0.04&&HotRoIFlag==false&&StationFlag==true){return pT;}
+    A_dR->Fill(off_pt,dR);
+    if(dR<=0.03){return pT;}
+    //if(dR<=0.03&&StationFlag==true){return pT;}
+    //if(dR<=0.03&&HotRoIFlag==false&&StationFlag==true){return pT;}
     else{return 0;}
 }
 
 Bool_t ptresidual::HotRoI(int tgc)
 {
-    /*
-    int phisector = (*tgc_coin_phi)[tgc];
-    int roi = (*tgc_coin_roi)[tgc];
-    bool Flag = false;
-    if(!(*tgc_coin_isForward)[tgc]){
-    */
 
     int phisector = (*TGC_Run3_PhiSector)[tgc];
     int roi = (*TGC_Run3_RoI)[tgc];

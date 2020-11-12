@@ -17,6 +17,8 @@ add_library(src
     ptresidualHist.cxx
     ptresidualOffline.cxx
     ptresidualTGCRun3.cxx
+    ptresidualTGCRun2.cxx
+    ptresidualHLT.cxx
 )
 target_include_directories(src
     PUBLIC 

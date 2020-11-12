@@ -62,6 +62,7 @@ Int_t ptresidual::Thre(int k)
     if(k>=17&&k<=18){Thre=17;}
     if(k>=18&&k<=19){Thre=18;}
     if(k>=19&&k<=20){Thre=19;}
+    if(k>=20&&k<=21){Thre=20;}
 
     return Thre;
 }

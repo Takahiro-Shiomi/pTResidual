@@ -6,36 +6,67 @@
 #include <vector>
 #include <stdlib.h>
 #include <typeinfo>
+#include <TLorentzVector.h>
+#include <TVector2.h>
+#include <TVector3.h>
 
 using namespace std;
 
 void ptresidual::FillHist()
 {
-    //Offline Start
-    for(int i=0;i!=muon_n;i++){
-        if(muon_author->at(i)!=1 || muon_Type->at(i)!=0)continue;
-        float offline_pt=muon_pt->at(i);
-        float offline_eta =muon_eta->at(i);
-        float offline_phi =muon_phi->at(i);
-        if(abs(offline_eta)<=1.05){continue;}
-        if(abs(offline_eta)>=2.4){continue;}
-        int thre = Thre(offline_pt/1000);
-        if(thre == 999){continue;}
-        if(Offline(i, ext_mu_size->at(i))==false)continue;
+    //TagAndProbe//
+    if(muon_n>=2){
+    bool JPsi=false;
+    //Tag
+    for(int tag=0;tag<muon_n;tag++){
+        if((*muon_author)[tag]!=1 || (*muon_Type)[tag]!=0){continue;}
+        if((*muon_pt)[tag]/1000<20){continue;}
+        if((!Tag(tag))){continue;}
+        TLorentzVector Tag;
+        Tag.SetPtEtaPhiM((*muon_pt)[tag]/1000,(*muon_eta)[tag],(*muon_phi)[tag],(*muon_m)[tag]/1000);
 
-        //TGC Run-3 Start
-        int pT = TGC_Run3(offline_pt/1000);
-        //int pTRun2 = TGC_Run2(offline_pt/1000);
+        for(int pro=0;pro<muon_n;pro++){
+            if(tag==pro){continue;}
+            if(abs((*muon_eta)[pro])<=1.05){continue;}
+            if((*muon_author)[pro]!=1 || (*muon_Type)[pro]!=0){continue;}
+            if((*muon_charge)[tag]==(*muon_charge)[pro]){continue;}
+            TLorentzVector Pro;
+            Pro.SetPtEtaPhiM((*muon_pt)[pro],(*muon_eta)[pro],(*muon_phi)[pro],(*muon_m)[pro]/1000);
+            
+            float dPhi=TVector2::Phi_mpi_pi((*muon_phi)[tag] - (*muon_phi)[pro]);
+            J_dPhi->Fill(abs(dPhi));
+            if(abs(dPhi)<0.14 || abs(dPhi)>3.0){continue;}
+            float dR = Tag.DeltaR(Pro);
+            J_dR->Fill(dR);
+            TLorentzVector M = Tag + Pro;
+            J_M->Fill(M.M());
+            if(M.M()<2.8 || M.M()>3.4){continue;}
+            if(Offline(pro,(*ext_mu_size)[pro]) == false){continue;}
+            P_pT->Fill((*muon_pt)[pro]/1000);
+            JPsi=true;
+            int thre = Thre((*muon_pt)[pro]/1000);
+            if(thre!=999){
+                int pt_Run2 = TGC_Run2((*muon_pt)[pro]/1000);
+                if(pt_Run2<=20 && pt_Run2>=4){
+                    float resi = ((float)pt_Run2-((*muon_pt)[pro]/1000))/((*muon_pt)[pro]/1000);
+                    B_resi[thre-1]->Fill(resi);
+                    B_inte[thre-1]=B_inte[thre-1]+1;
+                    B_mean[thre-1]=B_mean[thre-1]+resi;
+                    B_scat[thre-1]=B_scat[thre-1]+pow(resi,2);
+                }
 
-        //Residual Fill
-        if(pT>=3&&pT<=20){
-            h_pT->Fill(offline_pt/1000);
-            float ptresidual = ((float)pT-(offline_pt/1000))/(offline_pt/1000);
-            h_pTresidual[thre-1]->Fill(ptresidual);
-
-            Integral[thre-1]=Integral[thre-1]+1;
-            mean[thre-1]=mean[thre-1]+ptresidual;
-            scatter[thre-1]=scatter[thre-1]+pow(ptresidual,2);
+                int pt_Run3 = TGC_Run3((*muon_pt)[pro]/1000);
+                if(pt_Run3<=20 && pt_Run3>=3){
+                    float resi = ((float)pt_Run3-((*muon_pt)[pro]/1000))/((*muon_pt)[pro]/1000);
+                    A_resi[thre-1]->Fill(resi);
+                    A_inte[thre-1]=A_inte[thre-1]+1;
+                    A_mean[thre-1]=A_mean[thre-1]+resi;
+                    A_scat[thre-1]=A_scat[thre-1]+pow(resi,2);
+                }
+            }
+            if(JPsi){break;}
         }
+        if(JPsi){break;}
+    }
     }
 }
