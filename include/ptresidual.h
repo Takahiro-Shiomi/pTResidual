@@ -246,6 +246,7 @@ public :
    virtual Bool_t   HotRoI(int tgc);
    virtual Int_t    Thre(int k);
    virtual Int_t    TGC_Run3(float offline_pt);
+   virtual Int_t    TGC_Run2(float offline_pt);
    virtual Bool_t   Notify();
    virtual void     Show(Long64_t entry = -1);
 };

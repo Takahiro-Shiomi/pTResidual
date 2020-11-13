@@ -25,7 +25,7 @@ void ptresidual::FillHist()
 
         //TGC Run-3 Start
         int pT = TGC_Run3(offline_pt/1000);
-        //int pTRun2 = TGC_Run2(offline_pt/1000);
+        //int pT = TGC_Run2(offline_pt/1000);
 
         //Residual Fill
         if(pT>=3&&pT<=20){

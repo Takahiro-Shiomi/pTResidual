@@ -18,9 +18,9 @@ using namespace std;
 
 void ptresidual::InitHist(){
 
-    h_pT = new TH1D("h_pT","",30,0,30);
+    h_pT = new TH1D("h_pT","",60,0,60);
     for(int i=0;i<20;i++){
-        h_pTresidual[i]=new TH1D(Form("h_pTresidual%d",i),Form("%dGeV<offline p_{T}<%dGeV;p_{T}residual;Events",i+1,i+2),90,-1.5,1.5);
+        h_pTresidual[i]=new TH1D(Form("h_pTresidual%d",i),Form("%dGeV<offline p_{T}<%dGeV;p_{T}residual;Events",i+1,i+2),60,-1.5,1.5);
         Integral[i]=0;
         mean[i]=0;
         scatter[i]=0;

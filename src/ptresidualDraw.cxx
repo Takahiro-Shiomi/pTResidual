@@ -31,7 +31,6 @@ void ptresidual::DrawHist(TString pdf)
         h_pTresidual[j]->SetLineColor(kAzure-1);
         h_pTresidual[j]->SetFillColor(kAzure);
         h_pTresidual[j]->SetFillStyle(3015);
-        h_pTresidual[j]->Write();
         if(Num==6||j==19){
             c1->Print(pdf, "pdf");
             c1->Clear();
